@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import AddEmployeeForm from "../components/AddEmployeeForm";
 import EmployeeList from "../components/EmployeeListing";
+import AddDesignationForm from "../components/AddDesignationForm";
+
 import {
   LineChart,
   Line,
@@ -30,6 +32,7 @@ import {
   Target,
   FilePen,
 } from "lucide-react";
+import DesignationListing from "../components/DesignationListing";
 
 const AdminDashboard = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -37,6 +40,7 @@ const AdminDashboard = () => {
   const [designationMenuOpen, setDesignationMenuOpen] = useState(true);
   const [departmentMenuOpen, setDepartmentMenuOpen] = useState(true);
   const [currentView, setCurrentView] = useState("dashboard");
+  const [currentDesignation, setCurrentDesignation] = useState("dashboard");
   const dropdownRef = useRef(null);
 
   const growthData = [
@@ -128,7 +132,12 @@ const AdminDashboard = () => {
             </div>
             {designationMenuOpen && (
               <div className="ml-6 mt-2 space-y-1 border-l border-gray-700 pl-3">
-                <SidebarSubItem text="Add Designation" />
+                <SidebarItem text="Add Designation"
+                 onClick={() => setCurrentView("add-designation")} />
+                 <SidebarItem
+                  text="Designation Listing"
+                  onClick={() => setCurrentView("designation-listing")}
+                />
               </div>
             )}
           </div>
@@ -149,8 +158,10 @@ const AdminDashboard = () => {
             </div>
             {departmentMenuOpen && (
               <div className="ml-6 mt-2 space-y-1 border-l border-gray-700 pl-3">
-                <SidebarSubItem text="Add Department" />
+                <SidebarSubItem text="Add Department"/>
+                    
               </div>
+              
             )}
           </div>
           <SidebarItem icon={<Wallet size={16} />} text="Payroll" />
@@ -279,6 +290,11 @@ const AdminDashboard = () => {
             <AddEmployeeForm onClose={() => setCurrentView("dashboard")} />
           )}
           {currentView === "employee-listing" && <EmployeeList />}
+
+          {currentView === "add-designation" && (
+            <AddDesignationForm onClose={() => setCurrentView("dashboard")} />
+          )}
+          {currentView === "designation-listing" && <DesignationListing />}
         </main>
       </div>
     </div>
