@@ -46,8 +46,15 @@ const AdminDashboard = () => {
   const [employeeMenuOpen, setEmployeeMenuOpen] = useState(true);
   const [designationMenuOpen, setDesignationMenuOpen] = useState(true);
   const [departmentMenuOpen, setDepartmentMenuOpen] = useState(true);
-  const [currentView, setCurrentView] = useState("dashboard");
+const [currentView, setCurrentView] = useState(() => {
+  return localStorage.getItem("currentView") || "employee-listing"; 
+});
+
   const dropdownRef = useRef(null);
+const handleViewChange = (view) => {
+  localStorage.setItem("currentView", view);
+  setCurrentView(view);
+};
 
   const growthData = [
     { month: "Jan", employees: 120 },
@@ -88,8 +95,8 @@ const AdminDashboard = () => {
           <SidebarItem
             icon={<LayoutDashboard size={16} />}
             text="Dashboard"
-            active={currentView === "dashboard"}
-            onClick={() => setCurrentView("dashboard")}
+            // active={currentView === "dashboard"}
+          onClick={() => handleViewChange("dashboard")}
           />
           <div>
             <div
@@ -111,12 +118,11 @@ const AdminDashboard = () => {
                 <SidebarItem
                   text="Add Employee"
                   icon={<SquarePen  size={18} />}
-                  onClick={() => setCurrentView("add-employee")}
-                />
+onClick={() => handleViewChange("add-employee")}                />
                 <SidebarItem
                   text="Employee Listing"
                   icon={<List size={18} />}
-                  onClick={() => setCurrentView("employee-listing")}
+onClick={() => handleViewChange("employee-listing")}
                 />
               </div>
             )}
@@ -140,11 +146,11 @@ const AdminDashboard = () => {
               <div className="ml-6 mt-2 space-y-1 border-l border-gray-700 pl-3">
                 <SidebarItem text="Add Designation"
                 icon={<SquarePen  size={18} />}
-                 onClick={() => setCurrentView("add-designation")} />
+                 onClick={() => handleViewChange("add-designation")} />
                  <SidebarItem
                   text="Designation Listing"
                   icon={<List size={18} />}
-                  onClick={() => setCurrentView("designation-listing")}
+                  onClick={() => handleViewChange("designation-listing")}
                 />
               </div>
             )}
@@ -168,10 +174,10 @@ const AdminDashboard = () => {
               <div className="ml-6 mt-2 space-y-1 border-l border-gray-700 pl-3">
                 <SidebarItem text="Add Department"
                 icon={<SquarePen  size={18} />}
-                onClick={() => setCurrentView("add-department")} />
+                onClick={() => handleViewChange("add-department")} />
                 <SidebarItem text="Department Listing"
                 icon={<List  size={18} />}
-                onClick={() => setCurrentView("department-listing")} />
+                onClick={() => handleViewChange("department-listing")} />
                     
               </div>
               

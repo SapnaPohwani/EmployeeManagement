@@ -1,30 +1,34 @@
 import React, { useState } from "react";
 import { X } from "lucide-react";
-import { useDispatch } from "react-redux";
-import { addDesignation } from "../../redux/EmployeeSlice";
+import axios from "axios";
 
 const AddDesignationForm = ({ onClose }) => {
-  const dispatch = useDispatch();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [showPopup, setShowPopup] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const newDesignation = { title, description };
-    dispatch(addDesignation(newDesignation));
-    setShowPopup(true);
-    setTimeout(() => {
-      setShowPopup(false);
-      setTitle("");
-      setDescription("");
-      onClose?.();
-    }, 3000);
+    try {
+      await axios.post("http://localhost:5000/api/employees/designation", {
+        title,
+        description,
+      });
+      setShowPopup(true);
+      setTimeout(() => {
+        setShowPopup(false);
+        setTitle("");
+        setDescription("");
+        onClose?.();
+      }, 3000);
+    } catch (error) {
+      console.error("❌ Error saving designation:", error);
+      alert("Failed to save. Check backend or network.");
+    }
   };
 
   return (
-    <div className="bg-[#fef7f4] p-8  rounded-3xl shadow-2xl max-w-10xl  relative">
+    <div className="bg-[#fef7f4] p-8 rounded-3xl shadow-2xl max-w-10xl relative">
       <X className="absolute top-4 right-4 cursor-pointer" onClick={onClose} />
       <h2 className="text-4xl font-bold mb-6 text-gray-800">Add Designation</h2>
 
