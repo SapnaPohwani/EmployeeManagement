@@ -1,7 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Filter } from "lucide-react";
 
-const SearchFilterBar = ({ onSearch, onFilterChange, filterOptions = [], placeholder = "Search..." }) => {
+const SearchFilterBar = ({
+  onSearch,
+  onFilterChange,
+  filterOptions = [],
+  placeholder = "Search...",
+  onFilterIconClick,
+}) => {
   const [searchText, setSearchText] = useState("");
   const [showFilterDropdown, setShowFilterDropdown] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState("");
@@ -13,18 +19,15 @@ const SearchFilterBar = ({ onSearch, onFilterChange, filterOptions = [], placeho
     onSearch(value);
   };
 
-  const toggleDropdown = () => {
-    setShowFilterDropdown((prev) => !prev);
-  };
+
 
   const handleFilterChange = (e) => {
     const value = e.target.value;
     setSelectedFilter(value);
     onFilterChange(value);
-    setShowFilterDropdown(false); 
+    setShowFilterDropdown(false);
   };
 
-  
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -47,8 +50,9 @@ const SearchFilterBar = ({ onSearch, onFilterChange, filterOptions = [], placeho
 
       <div className="relative" ref={dropdownRef}>
         <button
-          onClick={toggleDropdown}
+          onClick={onFilterIconClick}
           className="p-2 rounded hover:bg-gray-100 transition"
+          title="Open Filter Sidebar"
         >
           <Filter size={20} className="text-gray-600" />
         </button>

@@ -19,11 +19,10 @@ const EmployeeList = () => {
     dojFrom: "",
     dojTo: "",
     hoursPerWeek: 0,
-    salary: 200000,
+    salary: 100000,
     taxDeductions: 50000,
     employmentType: "",
   });
-
 
   const fetchEmployees = async () => {
     try {
@@ -68,6 +67,7 @@ const EmployeeList = () => {
       <SearchFilterBar
         onSearch={handleSearch}
         onFilterChange={handleFilterChange}
+        onFilterIconClick={() => setShowFilter(true)}
         placeholder="Search by name or email..."
         filterOptions={[
           { label: "Software Engineer", value: "Software Engineer" },
@@ -76,15 +76,6 @@ const EmployeeList = () => {
           { label: "QA Tester", value: "QA Tester" },
         ]}
       />
-
-      <div className="flex justify-end mb-4">
-        <button
-          onClick={() => setShowFilter(true)}
-          className="bg-blue-600 text-white px-4 py-2 rounded"
-        >
-          More Filters
-        </button>
-      </div>
 
       <h2 className="text-2xl font-semibold mb-4">Employee List</h2>
 
