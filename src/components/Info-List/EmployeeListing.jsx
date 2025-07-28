@@ -24,7 +24,7 @@ const EmployeeList = () => {
     employmentType: "",
   });
 
-  // 🔄 Fetch employees from backend using filters
+
   const fetchEmployees = async () => {
     try {
       const res = await axios.get("http://localhost:5000/api/employees/list", {
